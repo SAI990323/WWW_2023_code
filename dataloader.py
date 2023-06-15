@@ -7,7 +7,7 @@ import random
 import numpy as np
 import math
 import os
-
+#
 class RecData(object):
     def __init__(self, dir, file_name):
         file_name = file_name + 'data.mat'
