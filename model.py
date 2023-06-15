@@ -111,14 +111,6 @@ class BaseMF(BaseModel):
         eval_output = output.detach()
         return eval_output
 
-    # def cal_rank(self, user_id, pos_rat):
-    #     item_emb = self._Item_Embedding.weight
-    #     user_emb = self._User_Embedding(user_id)
-    #     all_rat = torch.matmul(user_emb, item_emb.T)
-    #     sorted_seq, _ = torch.sort(all_rat)
-    #     cal_r = torch.searchsorted(sorted_seq, pos_rat.unsqueeze(-1))
-    #     return cal_r
-
 class NCF(BaseMF):
     def __init__(self, num_user, num_item, dims, pos_weight=False, **kwargs):
         super().__init__(num_user, num_item, dims, pos_weight=pos_weight, **kwargs)
@@ -133,11 +125,6 @@ class NCF(BaseMF):
         inferences = self._FC(torch.tanh(gmf_out + mlp_out))
         return inferences.squeeze(-1)
     
-    # def forward(self, user_id, pos_id, neg_id):
-    #     N = neg_id.shape[1]
-    #     pos_rat = self.inference(user_id, pos_id)
-    #     neg_rat = self.inference(user_id.unsqueeze(1).repeat(1,N), neg_id)
-    #     return pos_rat, neg_rat
 
 class MLP(BaseMF):
     def __init__(self, num_user, num_item, dims, pos_weight=False, **kwargs):
@@ -152,11 +139,6 @@ class MLP(BaseMF):
         inferences = self._FC(torch.tanh(mlp_out))
         return inferences.squeeze(-1)
     
-    # def forward(self, user_id, pos_id, neg_id):
-    #     N = neg_id.shape[1]
-    #     pos_rat = self.inference(user_id, pos_id)
-    #     neg_rat = self.inference(user_id.unsqueeze(1).repeat(1,N), neg_id)
-    #     return pos_rat, neg_rat
 
 class GMF(BaseMF):
     def __init__(self, num_user, num_item, dims, pos_weight=False, **kwargs):
